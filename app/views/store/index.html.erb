@@ -3,14 +3,31 @@
 <% end %>
 
 <h1>Your Pragmatic Catalog</h1>
-
-<% @products.each do |product| %>
-  <div class="entry">
-    <%= image_tag(product.image_url) %>
-    <h3><%= product.title %></h3>
-    <p><%= sanitize(product.description) %></p>
-    <div class="price_line">
-      <span class="price"><%= number_to_currency product.price %></span>
-    </div>
-  </div>
+<% if @counter > 5 %>
+<p>You visit this page <%= pluralize(@counter, 'time') %>. You're strange </p>
 <% end %>
+<!-- START_HIGHLIGHT -->
+<% cache ['store', Product.latest] do %>
+<!-- END_HIGHLIGHT -->
+  <% @products.each do |product| %>
+<!-- START_HIGHLIGHT -->
+    <% cache ['entry', product] do %>
+<!-- END_HIGHLIGHT -->
+      <div class="entry">
+        <%= image_tag(product.image_url) %>
+        <h3><%= product.title %></h3>
+        <%= sanitize(product.description) %>
+        <div class="price_line">
+    <!-- START:currency -->
+          <span class="price"><%= number_to_currency(product.price) %></span>
+          <%= button_to 'Add to cart', line_items_path(product_id: product) %>
+    <!-- END:currency -->
+        </div>
+      </div>
+<!-- START_HIGHLIGHT -->
+    <% end %>
+<!-- END_HIGHLIGHT -->
+  <% end %>
+<!-- START_HIGHLIGHT -->
+<% end %>
+<!-- END_HIGHLIGHT -->

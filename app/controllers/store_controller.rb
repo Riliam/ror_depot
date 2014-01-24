@@ -7,7 +7,17 @@
 # Visit http://www.pragmaticprogrammer.com/titles/rails4 for more book information.
 #---
 class StoreController < ApplicationController
+
+	def inc_counter
+		if session[:counter].nil?
+			session[:counter] = 1
+		else
+			session[:counter] += 1
+		end
+	end
+
   def index
     @products = Product.order(:title)
+    @counter = inc_counter
   end
 end
