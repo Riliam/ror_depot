@@ -3,6 +3,8 @@ class LineItemsController < ApplicationController
   before_action :set_cart, only: [:create]
   before_action :set_line_item, only: [:show, :edit, :update, :destroy]
 
+  rescue_from ActiveRecord::RecordNotFound, with: :invalid_product
+
   # GET /line_items
   # GET /line_items.json
   def index
@@ -60,7 +62,7 @@ class LineItemsController < ApplicationController
   def destroy
     @line_item.destroy
     respond_to do |format|
-      format.html { redirect_to line_items_url }
+      format.html { redirect_to current_cart }
       format.json { head :no_content }
     end
   end
@@ -74,5 +76,10 @@ class LineItemsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def line_item_params
       params.require(:line_item).permit(:product_id)
+    end
+
+    def invalid_product
+      logger.error "There is no product with such name #{params[:id]}"
+      redirect_to product_url, notice: "There is no such product"
     end
 end
