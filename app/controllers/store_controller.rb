@@ -8,6 +8,8 @@
 #---
 class StoreController < ApplicationController
 
+	include CurrentCart
+	before_action :set_cart		
 	def inc_counter
 		if session[:counter].nil?
 			session[:counter] = 1
