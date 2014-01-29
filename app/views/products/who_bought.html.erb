@@ -1,0 +1,27 @@
+<div id="who_bought">
+	<h2>Who bought <%= @product.title %> </h2>
+	<hr>
+
+	<% @product.orders.each do |order| %>
+		<h2><%= link_to order.name, order %></h3>
+		<p><%= order.created_at %></p>
+		<table>
+			<tr>
+				<th>Product</th>
+				<th>Quantity</th>
+				<th>Total price</th>
+			</tr>
+			<% order.line_items. each do |item| %>
+				<tr>
+					<td><%= item.product.title %></td>
+					<td><%= item.quantity%></td>
+					<td><%= number_to_currency item.total_price%></td>
+				</tr>
+			<% end %>
+
+		</table>
+		<p> Shipped to <%= order.address %></p>
+		<p> Paid by <strong><%= order.pay_type %></strong></p>
+		<hr>
+	<% end %>
+</div>

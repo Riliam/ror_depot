@@ -61,6 +61,41 @@ class ProductsController < ApplicationController
     end
   end
 
+  def who_bought
+    @product = Product.find(params[:id])
+    @latest_order = @product.orders.order(:updated_at).last
+    # if stale?(@latest_order)
+      respond_to do |format|
+        format.atom
+        format.html
+        format.xml {  render xml: @product.to_xml(:only => [:id, :title], 
+                                                  :include => {
+                                                    :orders => {
+                                                      :only => [:id, :name, :address, :pay_type, :created_at], 
+                                                      :include => {
+                                                        :line_items => {
+                                                          :only => [ :id, :product_id, :cart_id ]
+                                                        }
+                                                      }
+                                                    }
+                                                  }
+                                                )}
+        format.json {  render json: @product.to_json(:only => [:id, :title], 
+                                                  :include => {
+                                                    :orders => {
+                                                      :only => [:id, :name, :address, :pay_type, :created_at], 
+                                                      :include => {
+                                                        :line_items => {
+                                                          :only => [ :id, :product_id, :cart_id ]
+                                                        }
+                                                      }
+                                                    }
+                                                  }
+                                                )}
+      end
+    # end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_product

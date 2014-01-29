@@ -94,3 +94,41 @@
   background: #9c9;
   height: 50px;
 }
+
+.depot_form {
+  fieldset {
+    background: #efe;
+  
+
+    legend {
+      color: #dfd;
+      background: #141;
+      font-family: sans-serif;
+      padding: .2em 1em;
+    }
+  }
+
+
+  form {
+    label {
+      width: 5em;
+      float: left;
+      text-align: right;
+      padding-top: .2em;
+      margin-right: .1em;
+      display: block;
+    }
+
+    select, textarea, input {
+      margin-left: .5em;
+    }
+
+    .submit {
+      margin-left: 4em;
+    }
+
+    br {
+      display: none;
+    }
+  }
+}

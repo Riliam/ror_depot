@@ -50,3 +50,37 @@
 }
 /* END_HIGHLIGHT */
 
+#who_bought {
+  a, a:visited {
+    text-decoration: none;
+    color: #222;
+  }
+
+  a:hover {
+    background: #bbb;
+    border: 1px solid #aaa;
+    border-radius: 2px;
+  }
+
+  table, tr, th, td {
+    border: 1px solid #222;
+    padding: .1em 1em;
+  }
+  tr:hover {
+    background: #bbb;
+    border: 1px solid #aaa;
+    border-radius: 2px;
+  }
+
+  tr td:hover {
+    background: #444;
+    border: 1px solid #333;
+    color: white;
+    box-shadow: 0 0 4 black;
+    /*font-weight: bold;*/
+  }
+
+  p {
+    font-size: 1.1em;
+  }
+}
