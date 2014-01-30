@@ -2,9 +2,12 @@
 
 one:
   product: ruby
-  cart: one
+  order: one
+  quantity: 1
 
 
 two:
   product: ruby
   cart: one
+
+
