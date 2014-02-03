@@ -7,7 +7,9 @@
 # Visit http://www.pragmaticprogrammer.com/titles/rails4 for more book information.
 #---
 class ApplicationController < ActionController::Base
-  protect_from_forgery
+	before_action :authorize
+  protect_from_forgery with: :exception
+
 
   private
 
@@ -18,4 +20,13 @@ class ApplicationController < ActionController::Base
       session[:cart_id] = cart.id
       cart
     end
+
+
+  protected 
+  	def authorize
+	  	unless User.find_by(id: session[:user_id])
+	  		redirect_to login_url, notice: "Please log in"
+	  	end
+  	end
+
 end
