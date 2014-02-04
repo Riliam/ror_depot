@@ -33,7 +33,6 @@ class UsersController < ApplicationController
   # POST /users.json
   def create
     @user = User.new(user_params)
-
     respond_to do |format|
       if @user.save
         format.html { redirect_to users_url,
@@ -51,13 +50,37 @@ class UsersController < ApplicationController
   # PATCH/PUT /users/1
   # PATCH/PUT /users/1.json
   def update
+    @user = User.find(params[:id])
+    old_password = params[:user][:old_password]
+    what_to_update = {}
+    logger.debug "user params #{user_params}"
+
+    if params[:user][:name] != @user.name
+      what_to_update[:name] = params[:user][:name]
+    end
+
+    if old_password 
+      if @user.authenticate(old_password)
+        if !params[:user][:password].empty?
+          what_to_update[:password] = params[:user][:password]
+          what_to_update[:password_confirmation] = params[:user][:password_confirmation]
+        else
+          @user.errors.add(:password, "can't be empty")
+        end
+      else
+        @user.errors.add(:old_password, "is wrong")
+      end
+    end
+    logger.debug "what to update: #{what_to_update}"
+    logger.debug "user errors: #{@user.errors.any?}"
+
     respond_to do |format|
-      if @user.update(user_params)
+      if @user.errors.empty? && @user.update(what_to_update) 
         format.html { redirect_to users_url,
           notice: "User #{@user.name} was successfully updated." }
         format.json { head :no_content }
       else
-        format.html { render action: 'edit' }
+        format.html { render action: "edit"}
         format.json { render json: @user.errors,
           status: :unprocessable_entity }
       end
@@ -87,6 +110,6 @@ class UsersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
-      params.require(:user).permit(:name, :password, :password_confirmation)
+      params.require(:user).permit(:name, :password, :password_confirmation, :old_password)
     end
 end

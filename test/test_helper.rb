@@ -21,6 +21,6 @@ class ActiveSupport::TestCase
   end
 
   def setup
-  	logina_as :one if defined? session
+  	login_as :one if defined? session
   end
 end

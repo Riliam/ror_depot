@@ -1,7 +1,7 @@
 <% if notice %>
 <p id="notice"><%= notice %></p>
 <% end %>
-
+<%= params %>
 <h1>Your Pragmatic Catalog</h1>
 <% if @counter > 5 %>
 <p>You visit this page <%= pluralize(@counter, 'time') %>. You're strange </p>

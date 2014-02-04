@@ -4,6 +4,16 @@ skip_before_action :authorize
   end
 
   def create
+    if User.count.zero?
+      logger.debug "Params: #{params}"
+      name = params[:name]
+      user = User.create(name: name, password: name, password_confirmation: name)
+      user.save
+      user.authenticate(name)
+      session[:user_id] = user.id
+      redirect_to admin_url, alert: 'First admin created.'
+      return
+    end
   	user = User.find_by(name: params[:name])
   	if user and user.authenticate(params[:password])
   		session[:user_id] = user.id

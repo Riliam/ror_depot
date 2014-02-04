@@ -13,6 +13,8 @@ class SessionsControllerTest < ActionController::TestCase
     assert_equal dave.id, session[:user_id]
   end
 
+  
+
   test "should fail login" do
     dave = users(:one)
     post :create, name: dave.name, password: 'wrong'
