@@ -1,33 +1,22 @@
 <% if notice %>
 <p id="notice"><%= notice %></p>
 <% end %>
-<%= params %>
-<h1>Your Pragmatic Catalog</h1>
-<% if @counter > 5 %>
-<p>You visit this page <%= pluralize(@counter, 'time') %>. You're strange </p>
-<% end %>
-<!-- START_HIGHLIGHT -->
+
+<h1><%= t('.title_html') %></h1>
+
 <% cache ['store', Product.latest] do %>
-<!-- END_HIGHLIGHT -->
   <% @products.each do |product| %>
-<!-- START_HIGHLIGHT -->
     <% cache ['entry', product] do %>
-<!-- END_HIGHLIGHT -->
       <div class="entry">
         <%= image_tag(product.image_url) %>
         <h3><%= product.title %></h3>
         <%= sanitize(product.description) %>
         <div class="price_line">
-    <!-- START:currency -->
+        <%= t('.add_html') %>
           <span class="price"><%= number_to_currency(product.price) %></span>
-          <%= button_to 'Add to cart', line_items_path(product_id: product), remote: true%>
-    <!-- END:currency -->
+          <%= button_to t('.add'), line_items_path(product_id: product), remote: true %>
         </div>
       </div>
-<!-- START_HIGHLIGHT -->
     <% end %>
-<!-- END_HIGHLIGHT -->
   <% end %>
-<!-- START_HIGHLIGHT -->
 <% end %>
-<!-- END_HIGHLIGHT -->
